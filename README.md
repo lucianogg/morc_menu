@@ -18,6 +18,8 @@ morc_menu generates menus based upon the presence of
 folder ${HOME}/.local/share/applications, per the
 xfreedesktop and linux LSB standards.
 
+A readable version of the script's man page is available on this repository's wiki.
+
 ## Requirements
 
 For the presentation front-end:
