@@ -29,7 +29,7 @@ For the presentation front-end:
 * yada, or
 * something else.
 
-For aligning / positioning the menu at the current mouse pointer:
+Optionally, for aligning / positioning the menu at the current mouse pointer:
 * xdotool, from package xdotool;
 * lsw and wattr, both from package wmutils
 
