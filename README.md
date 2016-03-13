@@ -3,13 +3,13 @@ Categorized desktop application menu
 * independent of any window manager
 * highly and easily customizable
 
-morc_menu is a bash script that simulates the functionality of an Openbox
-/ Fluxbox style menu without requiring those window
+morc_menu is a bash script that simulates the functionality of an [Openbox](https://en.wikipedia.org/wiki/Openbox)
+/ [Fluxbox](https://en.wikipedia.org/wiki/Fluxbox) style menu without requiring those window
 managers or associated dependencies. It was originally
-written for the i3 window manager, and using 'dmenu' as
+written for the [i3 window manager](https://en.wikipedia.org/wiki/I3_%28window_manager%29), and using '[dmenu](https://en.wikipedia.org/wiki/Dwm#dmenu)' as
 as its front-end, but it should also work in pretty much
 any X11 environment, and has been tested with
-alternative front-ends such as 'rofi', 'zenity' and
+alternative front-ends such as '[rofi](https://davedavenport.github.io/rofi/)', '[zenity]https://en.wikipedia.org/wiki/Zenity)' and
 'yada'.
 
 morc_menu generates menus based upon the presence of
@@ -18,7 +18,7 @@ morc_menu generates menus based upon the presence of
 folder ${HOME}/.local/share/applications, per the
 xfreedesktop and linux LSB standards.
 
-A readable version of the script's man page is available on this repository's wiki.
+A readable version of the script's [man page](https://github.com/Boruch-Baum/morc_menu/wiki/man-page) is available on this repository's [wiki](https://github.com/Boruch-Baum/morc_menu/wiki).
 
 ## Requirements
 
@@ -30,8 +30,8 @@ For the presentation front-end:
 * something else.
 
 Optionally, for aligning / positioning the menu at the current mouse pointer:
-* xdotool, from package xdotool;
-* lsw and wattr, both from package wmutils
+* [xdotool](http://www.semicomplete.com/projects/xdotool), from package xdotool;
+* lsw and wattr, both from package [wmutils](https://github.com/wmutils/core)
 
 ## Setup
 
@@ -60,7 +60,7 @@ Optionally, for aligning / positioning the menu at the current mouse pointer:
 ## Customization
   This script offers many ways to customize the menu's
   content and 'look' ('skin'). Refer to the script's
-  man page and configuration file for details.
+  [man page](https://github.com/Boruch-Baum/morc_menu/wiki/man-page) and [configuration file](https://raw.githubusercontent.com/Boruch-Baum/morc_menu/master/morc_menu_v1.conf) for details.
 
 ## Copyright and License
 
