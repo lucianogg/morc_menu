@@ -54,7 +54,7 @@ Optionally, for aligning / positioning the menu at the current mouse pointer:
   i3 window manager would be to modify your
   ${HOME}/.i3/config file to include a statement in the
   form:
-     bindsym $mod+z \
+     bindsym $mod+z
              exec "${HOME}/path/to/morc_menu"
 
 ## Customization
