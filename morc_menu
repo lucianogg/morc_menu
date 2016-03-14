@@ -166,9 +166,7 @@ readonly default_path="${default_dir}${menu_file}"
 readonly \
   usr_shar_app_path="/usr/share/applications/" \
   loc_shar_app_path="${HOME}/.local/share/applications/" \
-  conf_path=( "/usr/share/morc_menu/" "/usr/local/share/morc_menu/" "${HOME}/.local/share/morc_menu/" "${default_dir}" ) \
-  conf_name="morc_menu_v1.conf" \
-  only_conf_file=""
+  conf_path=( "/usr/share/morc_menu/" "/usr/local/share/morc_menu/" "${HOME}/.local/share/morc_menu/" "${default_dir}" )
 
 # Settings for positioning menus
   # those defined only inside the script
@@ -182,19 +180,26 @@ readonly \
     max_main_line_len=0 \
     max_sub_line_len=0 \
     avg_char_width=9 \
+    avg_err_char_width=10 \
     menu_width=350 \
+    err_menu_width=350 \
     line_height=20 # Both 'menu_width' and 'line_height' are measured
-		   # in pixels. Until we learn how to directly measure
-		   # them, we need to set them manually by trial and
-		   # error.
+                   # in pixels. Until we learn how to directly measure
+                   # them, we need to set them manually by trial and
+                   # error.
   # those subject to modification by either conf files or the script
   declare -i \
     x_position=300 \
     y_position=20
 
+# Settings subject to modification at the command line
+declare \
+  conf_name="morc_menu_v1.conf" \
+  only_conf_file=""
+
 # Settings subject to modification by conf files
 menu_cmd="dmenu -i -l MENU_LINES -x X_POSITION -y Y_POSITION -w MENU_WIDTH"
-error_cmd="dmenu -i -l 40 -x 500 -y 150 -w 350 -nb red -nf black -fn DejaVu"
+error_cmd="dmenu -i -l 40 -x 500 -y 150 -w MENU_WIDTH -nb red -nf black -fn DejaVu"
 menu_prefix=" [menu]: "
 menu_suffix=" >"
 align_suffix="TRUE"
@@ -239,8 +244,12 @@ function usage_message() {
   }
 
 function input_file_error() {
+echo ${avg_err_char_width} "---" ${#in_file}
+  [ ${avg_err_char_width} -gt 0 ] \
+  && err_menu_width=$(( ${avg_err_char_width} * ${#in_file} ))
+  error_cmd="${error_cmd/MENU_WIDTH/${err_menu_width}}"
   printf "%s\n" \
-    "ERROR: Categorized menu"    \
+    "ERROR: morc_menu"    \
     "could not read input file"  \
     "${in_file}"                 \
   | ${error_cmd}
@@ -260,37 +269,39 @@ function parse_external_conf_file () {
     x_position=*)           ;&
     y_position=*)           ;&
     menu_width=*)           ;&
-    line_height=*)	    ;&
-    main_menu_lines=*)	    ;&
-    sub_menu_lines=*)	    ;&
-    menu_lines=*)	    ;&
+    err_menu_width=*)       ;&
+    line_height=*)          ;&
+    main_menu_lines=*)      ;&
+    sub_menu_lines=*)       ;&
+    menu_lines=*)           ;&
     use_mouse_position=*)   ;&
     max_main_line_len=*)    ;&
-    max_sub_line_len=*)	    ;&
-    avg_char_width=*)	    ;&
-    menu_cmd=*)		    ;&
-    error_cmd=*)	    ;&
-    menu_prefix=*)	    ;&
-    menu_suffix=*)	    ;&
-    align_suffix=*)	    ;&
+    max_sub_line_len=*)     ;&
+    avg_char_width=*)       ;&
+    avg_err_char_width=*)   ;&
+    menu_cmd=*)             ;&
+    error_cmd=*)            ;&
+    menu_prefix=*)          ;&
+    menu_suffix=*)          ;&
+    align_suffix=*)         ;&
     desired_categories=*)   ;&
-    category_aliases=*)	    ;&
-    unwanted_names=*)	    ;&
-    unwanted_execs=*)	    ;&
-    unwanted_specifics=*)    ;&
-    max_num_backups=*)	    ;&
-    exclude_about=*)	    ;&
+    category_aliases=*)     ;&
+    unwanted_names=*)       ;&
+    unwanted_execs=*)       ;&
+    unwanted_specifics=*)   ;&
+    max_num_backups=*)      ;&
+    exclude_about=*)        ;&
     additional_entries=*)   ;&
     exclude_from_static=*)  ;&
     exclude_from_dynamic=*) ;&
     add_to_static=*)        ;&
     add_to_dynamic=*)       ;&
     apply_exclusions=*)     ;&
-    in_file=*)		    ;&
-    out_file=*)		    ;&
+    in_file=*)              ;&
+    out_file=*)             ;&
     list=*)                 ;&
-    ii=*)		    ;&
-    max_cat_len=*)	    ;&
+    ii=*)                   ;&
+    max_cat_len=*)          ;&
     response=*)
       ;;
     *)
@@ -321,7 +332,7 @@ function parse_one_conf_file() {
     category_aliases=*)     ;&
     unwanted_names=*)       ;&
     unwanted_execs=*)       ;&
-    unwanted_specifics=*)    ;&
+    unwanted_specifics=*)   ;&
     additional_entries=*)   ;&
     exclude_from_static=*)  ;&
     exclude_from_dynamic=*) ;&
@@ -335,7 +346,9 @@ function parse_one_conf_file() {
     x_position=*)           ;&
     y_position=*)           ;&
     avg_char_width=*)       ;&
+    avg_err_char_width=*)   ;&
     menu_width=*)           ;&
+    err_menu_width=*)       ;&
     line_height=*)
       if [ "${REPLY#*=}" -lt 0 ] ; then
         eval "${REPLY%%=*}"=0
@@ -906,4 +919,4 @@ exit $EC_IMPOSSIBLE_TO_REACH_HERE
 # TODO
 # 1) add examples for zenity, rofi, yada in config file
 # 2) more testing of parsing of external config files!
-
+# 3) auto-create config file and path if doesn't exist
