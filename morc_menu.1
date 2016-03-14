@@ -136,10 +136,15 @@ for examples.
 
 .SS Positioning menu at mouse pointer
 By default, \fBmorc_menu\fP presents its menus at a static position on
-the display, but setting a variable in the \fBmorc_menu\fP
-configuration file will have \fBmorc_menu\fP position the menu at the
-mouse pointer, but only if: 1) the presenter supports this (eg. \fBdmenu-manjaro\fP or \fBrofi\fP, but not \fBdmenu\fP), and ; 2) programs from two additional
-packages, \fBxdotool\fP and \fBwmutils\fP, are available.
+the display, but setting variable 'use_mouse_position=TRUE' in the
+\fBmorc_menu\fP configuration file will have \fBmorc_menu\fP position
+the menu at the mouse pointer, but only if: 1) the presenter supports
+this (eg. \fBdmenu-manjaro\fP or \fBrofi\fP, but not \fBdmenu\fP); 2)
+programs from two additional packages, \fBxdotool\fP and
+\fBwmutils\fP, are available; and 3) variable 'menu_cmd' is set using
+the menu position string literals discussed in the configuration file.
+There are handy examples in-place, so in practice all you'll probably
+need to do is uncomment a line.
 
 .SS Environment
 \fBmorc_menu\fP expects that the programs the user wishes to have
@@ -223,6 +228,12 @@ front-end, which typically include coloring, positioning, sizing and
 fonts. Configuration files desired for those front-end can also be
 imported. Also, the prefixes and suffixes which mark sub-menus may be
 defined.
+
+\fBPositioning and Geometry\fP: This will be suject to the limitations
+of the presenter you choose. For example, \fBdmenu\fP does not support
+this, but \fBdmenu-manjaro\fP and \fBrofi\fP do. These customization
+options allow the menu to appear anywhere on the screen, in any size.
+Examples are given in the configuration file.
 
 .SH ENVIRONMENTAL VARIABLES
 \ 
