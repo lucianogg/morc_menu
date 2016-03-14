@@ -832,9 +832,10 @@ txt)
   exit $EC_NO_ERROR
   ;;
 build)
-  [ -z "$2" ]  \
-  && build_all \
-  || \
+  if [ -z "$2" ] ; then
+    out_file=${default_path}".txt"
+    build_all
+  else
     case $2 in
     usr)
       [ -z "$3" ] \
@@ -864,7 +865,8 @@ build)
       out_file="$2"
       build_all
       ;;
-    esac # End of sub-cases of option 'build'
+      esac # End of sub-cases of option 'build'
+    fi
   pad_right
   [ ! -d "${default_dir}" ] \
   && mkdir -p "${default_dir}"
