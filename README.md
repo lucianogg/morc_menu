@@ -29,6 +29,9 @@ For the presentation front-end:
 * yada, or
 * something else.
 
+If you use dmenu, the plain unpatched version will work, but using a version that includes the developers' add-on patches will offer more customization options and more attractive defaults. See the configuration file and man page for details. An example of a patched version is the package 'dmenu-manjaro', used in [Manjaro's i3 edition](https://manjaro.github.io/Manjaro-i3-15.12-released/)
+
+
 Optionally, for aligning / positioning the menu at the current mouse pointer:
 * [xdotool](http://www.semicomplete.com/projects/xdotool), from package xdotool;
 * lsw and wattr, both from package [wmutils](https://github.com/wmutils/core)
