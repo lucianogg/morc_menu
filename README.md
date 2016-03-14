@@ -9,7 +9,7 @@ managers or associated dependencies. It was originally
 written for the [i3 window manager](https://en.wikipedia.org/wiki/I3_%28window_manager%29), and using '[dmenu-manjaro](https://github.com/oberon2007/dmenu-manjaro)' (wikipedia: [dmenu](https://en.wikipedia.org/wiki/Dwm#dmenu) ) as
 as its front-end, but it should also work in pretty much
 any X11 environment, and has been tested with
-alternative front-ends such as the normal/vanilla/real version of '[dmenu](http://tools.suckless.org/dmenu/)', '[rofi](https://davedavenport.github.io/rofi/)', '[zenity](https://en.wikipedia.org/wiki/Zenity)' and
+alternative front-ends such as the [normal/vanilla/real version of 'dmenu](http://tools.suckless.org/dmenu/)', as well as  '[rofi](https://davedavenport.github.io/rofi/)', '[zenity](https://en.wikipedia.org/wiki/Zenity)' and
 'yada'.
 
 morc_menu generates menus based upon the presence of
