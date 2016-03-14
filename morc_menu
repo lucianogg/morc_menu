@@ -674,7 +674,7 @@ function produce_menu() {
   response="${RETURN_TO_MAIN_MENU}"
   while [[ "${response}" == "${RETURN_TO_MAIN_MENU}" ]] ; do
     display_a_menu ${main_menu_lines} ${max_main_line_len} "${main_menu_text}"
-    if [[ "${response}" =~ ^"${menu_prefix}".*$  ]] ; then
+    if [[ "${response}" =~ ^"${menu_prefix}".*"${menu_suffix}"$  ]] ; then
       # prepare a sub-menu display
       #
       # In order to identify the selection, we must
