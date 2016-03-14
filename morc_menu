@@ -197,9 +197,13 @@ declare \
   conf_name="morc_menu_v1.conf" \
   only_conf_file=""
 
-# Settings subject to modification by conf files
-menu_cmd="dmenu -i -l MENU_LINES -x X_POSITION -y Y_POSITION -w MENU_WIDTH"
-error_cmd="dmenu -i -l 40 -x 500 -y 150 -w MENU_WIDTH -nb red -nf black -fn DejaVu"
+# dmenu-manjaro: Settings subject to modification by conf files
+# menu_cmd="dmenu -i -l MENU_LINES -x X_POSITION -y Y_POSITION -w MENU_WIDTH"
+#error_cmd="dmenu -i -l 40 -x 500 -y 150 -w MENU_WIDTH -nb red -nf black -f
+# dmenu: Settings subject to modification by conf files
+menu_cmd="dmenu -i -l MENU_LINES "
+error_cmd="dmenu -i -l 40 -nb red -nf black -fn DejaVu"
+
 menu_prefix=" [menu]: "
 menu_suffix=" >"
 align_suffix="TRUE"
