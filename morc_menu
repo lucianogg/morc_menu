@@ -496,6 +496,7 @@ function shar_app() {
   # that we are processing a user-local folder,
   # eg. ${HOME}/.local/share/applications
   for in_file in ${in_path}*.desktop ; do
+    [ -r "${in_file}" ] || continue
   # We don't want to set the index ${ii} here because we want
   # to accumulate data in $list[] from multiple calls to this
   # function.
