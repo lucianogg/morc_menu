@@ -6,7 +6,7 @@ Categorized desktop application menu
 morc_menu is a bash script that simulates the functionality of an [Openbox](https://en.wikipedia.org/wiki/Openbox)
 / [Fluxbox](https://en.wikipedia.org/wiki/Fluxbox) style menu without requiring those window
 managers or associated dependencies. It was originally
-written for the [i3 window manager](https://en.wikipedia.org/wiki/I3_%28window_manager%29), and using '[dmenu-manjaro](https://github.com/oberon2007/dmenu-manjaro)' (wikipedia: [dmenu](https://en.wikipedia.org/wiki/Dwm#dmenu) ) as
+written for the [i3 window manager](https://en.wikipedia.org/wiki/I3_%28window_manager%29), and using '[dmenu-manjaro](https://github.com/manjaro/packages-community/tree/master/dmenu-manjaro)' (wikipedia: [dmenu](https://en.wikipedia.org/wiki/Dwm#dmenu) )
 as its front-end, but it should also work in pretty much
 any X11 environment, and has been tested with
 alternative front-ends such as the [normal/vanilla/real version of 'dmenu](http://tools.suckless.org/dmenu/)', as well as  '[rofi](https://davedavenport.github.io/rofi/)', '[zenity](https://en.wikipedia.org/wiki/Zenity)' and
@@ -28,6 +28,9 @@ For the presentation front-end:
 * zenity, or
 * yada, or
 * something else.
+
+If you use dmenu, the plain unpatched version will work, but using a version that includes the developers' add-on patches will offer more customization options and more attractive defaults. See the configuration file and man page for details. An example of a patched version is the package 'dmenu-manjaro', used in [Manjaro's i3 edition](https://manjaro.github.io/Manjaro-i3-15.12-released/)
+
 
 Optionally, for aligning / positioning the menu at the current mouse pointer:
 * [xdotool](http://www.semicomplete.com/projects/xdotool), from package xdotool;
