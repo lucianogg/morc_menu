@@ -218,10 +218,12 @@ exclude_from_static="FALSE"
 exclude_from_dynamic="TRUE"
 add_to_static="FALSE"
 add_to_dynamic="TRUE"
-# At this point, variables 'apply_exclusions' and 'apply_additions'
-# are NOT used for 'build' commands, but rather only for commands
-# which actually display menus. They hook into function 'produce_menu'
-# instead of functions such as 'shar_app' and 'build_xml'
+# Variable 'apply_exclusions' should not exist in the configuration
+# file. It is set by the script based upon variables
+# exclude_from_static and exclude_from_dynamic, so that a single
+# variable can be used by script functions to toggle this feature. A
+# corresponding variable for add_to_static and add_to_dynamic was not
+# necessary.
 apply_exclusions="FALSE"
 
 # Philosophically, these next should NOT be declared globally
@@ -248,7 +250,6 @@ function usage_message() {
   }
 
 function input_file_error() {
-echo ${avg_err_char_width} "---" ${#in_file}
   [ ${avg_err_char_width} -gt 0 ] \
   && err_menu_width=$(( ${avg_err_char_width} * ${#in_file} ))
   error_cmd="${error_cmd/MENU_WIDTH/${err_menu_width}}"
@@ -378,6 +379,19 @@ function parse_conf_files() {
       [ -r "${this_conf_path}${conf_name}" ] \
       && parse_one_conf_file "${this_conf_path}${conf_name}"
       done
+    fi
+  # If the user doesn't have a personal copy of the configuration file
+  # in ${HOME}/.config/morc_menu, put it there.
+  if [ ! -e "${default_dir}${conf_name}" ] ; then
+    [ ! -e "${default_dir}" ] \
+    && mkdir -p "${default_dir}"
+    for (( ii=(( ${#conf_path[@]}-1 )); ii-- ; )) ; do
+      if [ -r "${conf_path[ $ii ]}${conf_name}" ] ; then
+        cp "${conf_path[ $ii ]}${conf_name}" "${default_dir}"
+        break
+        fi
+      done
+    ii=0
     fi
   }
 
@@ -924,3 +938,7 @@ exit $EC_IMPOSSIBLE_TO_REACH_HERE
 # 1) add examples for zenity, rofi, yada in config file
 # 2) more testing of parsing of external config files!
 # 3) auto-create config file and path if doesn't exist
+
+
+# remove debug line in function input_file_error
+# correct documentation for variable apply_exclusions
