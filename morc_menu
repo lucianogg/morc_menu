@@ -937,8 +937,3 @@ exit $EC_IMPOSSIBLE_TO_REACH_HERE
 # TODO
 # 1) add examples for zenity, rofi, yada in config file
 # 2) more testing of parsing of external config files!
-# 3) auto-create config file and path if doesn't exist
-
-
-# remove debug line in function input_file_error
-# correct documentation for variable apply_exclusions
