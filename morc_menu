@@ -250,8 +250,11 @@ function usage_message() {
   }
 
 function input_file_error() {
-  [ ${avg_err_char_width} -gt 0 ] \
-  && err_menu_width=$(( ${avg_err_char_width} * ${#in_file} ))
+  if [ ${avg_err_char_width} -gt 0 ] ; then
+    in_file_width=$(( ${avg_err_char_width} * ${#in_file} ))
+    [ ${err_menu_width} -lt ${in_file_width} ] \
+    && err_menu_width=${in_file_width}
+    fi
   error_cmd="${error_cmd/MENU_WIDTH/${err_menu_width}}"
   printf "%s\n" \
     "ERROR: morc_menu"    \
