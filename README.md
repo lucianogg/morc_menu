@@ -22,7 +22,7 @@ A readable version of the script's [man page](https://github.com/Boruch-Baum/mor
 
 ## Screenshots
 
-Let's start with a menu customized to be 'skinned' consistently with Manjaro i3, and using all the dmenu features. It spawns the menu at the mouse position, calculates the menu geometry based upon the menu content, has mouse support, and has prefix and suffix labels to distinguish sub-menus from executables.
+Let's start with a menu customized to be 'skinned' consistently with Manjaro i3, and using all the dmenu features. It spawns the menu at the mouse position, calculates the menu geometry based upon the menu content, has mouse support, and has prefix and suffix labels to distinguish sub-menus from executables. All of this is easily changeable in the user or system config file.
 ![Main menu](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_01_main_menu.png)
 
 One way to navigate the menu is by using your arrow keys, or the mouse:
