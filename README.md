@@ -20,6 +20,22 @@ xfreedesktop and linux LSB standards.
 
 A readable version of the script's [man page](https://github.com/Boruch-Baum/morc_menu/wiki/man-page) is available on this repository's [wiki](https://github.com/Boruch-Baum/morc_menu/wiki).
 
+## Screenshots
+
+Let's start with a menu customized to be 'skinned' consistently with Manjaro i3, and using all the dmenu features. It spawns the menu at the mouse position, calculates the menu geometry based upon the menu content, has mouse support, and has prefix and suffix labels to distinguish sub-menus from executables.
+![Main menu](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_01_main_menu.png)
+
+One way to navigate the menu is by using your arrow keys, or the mouse:
+![Main menu navigation](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_02_%28arrow_nav_to_system%29.png)
+
+But why bother using the mouse when you can use the keyboard? (Don't answer that) As you type your selection, dmenu dynamically updates its presentation to the matching subset of menu entries. In the following screenshot, the user has typed 's' from the main menu and now has presented only those menu items with that letter.
+![Main menu keyboard entry 's'](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_11_main_menu_%28typing_s%29.png)
+
+With a second keystroke, 'y', the user has reduced the menu to one item, and can press return to select that item.
+![Main menu keyboard entry 'sy'](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_12_main_menu_%28typing_sy%29.png)
+
+After three keystrokes, 'sy\<enter\>', the user has navigated to the 'System' category sub-menu.
+![System menu](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_13_system_menu.png)
 ## Requirements
 
 For the presentation front-end:
