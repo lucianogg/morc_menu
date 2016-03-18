@@ -63,17 +63,10 @@ Optionally, for aligning / positioning the menu at the current mouse pointer:
 
 
   For personal use, without installing system-wide, and without requiring administrator privileges, manually install the script  by performing the following: download the package zip file; unzip it; copy the script file 'morc_menu' to a convenient location, for
-  example, somewhere on your ${PATH}; Make it executable
-  by running 'chmod +x /path/to/file'; Optionally, copy
-  the script's associated config file to
-  ${HOME}/.config/morc_menu; Optionally, copy the
-  script's associated man page to somehwere your system
-  will recognize (run command 'manpath', and if you can
-  not place it in any of those places, run 'man manpath'
-  to see how to set $MANPATH), and; Create a keybinding
-  for the script. An example keybinding for use with the
-  i3 window manager would be to modify your
-  ${HOME}/.i3/config file to include a statement in the
+  example, somewhere on your ${PATH}; Make it executable by running 'chmod +x /path/to/file'; Optionally, copy
+  the script's associated config file to ${HOME}/.config/morc_menu; Optionally, copy the script's associated man page to somewhere your system will recognize (run command 'manpath', and if you can not place it in any of those places, run 'man manpath'
+  to see how to set $MANPATH), and; Create a keybinding for the script. An example keybinding for use with the
+  i3 window manager would be to modify your ${HOME}/.i3/config file to include a statement in the
   form:
      bindsym $mod+z
              exec "${HOME}/path/to/morc_menu"
