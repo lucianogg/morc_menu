@@ -43,8 +43,10 @@ Optionally, for aligning / positioning the menu at the current mouse pointer:
   to follow any supplemental instructions of the
   packager.
 
-  Manually installing the script involves five steps:
-  Copy this script file to a convenient location, for
+  Otherwise, if you wish to install morc_menu for system-wide use, available to all users: Download the package zip file; Unzip it,; cd into the created folder morc_menu-master, and; Run 'sudo make install'. How then to create system-wide keybindings for morc_menu and how to propagate them is a matter too system-specific and too dependent on your use-case for this readme to fully address.  An example keybinding for use with the i3 window manager would be to modify the /etc/skel/.i3/config file and ${HOME}/.i3/config files to include a statement in the form: 'bindsym $mod+z exec morc_menu'
+
+
+  For personal use, without installing system-wide, and without requiring administrator privileges, manually install the script  by performing the following: download the package zip file; unzip it; copy the script file 'morc_menu' to a convenient location, for
   example, somewhere on your ${PATH}; Make it executable
   by running 'chmod +x /path/to/file'; Optionally, copy
   the script's associated config file to
