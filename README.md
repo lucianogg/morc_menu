@@ -25,17 +25,21 @@ A readable version of the script's [man page](https://github.com/Boruch-Baum/mor
 Let's start with a menu customized to be 'skinned' consistently with Manjaro i3, and using all the dmenu features. It spawns the menu at the mouse position, calculates the menu geometry based upon the menu content, has mouse support, and has prefix and suffix labels to distinguish sub-menus from executables. All of this is easily changeable in the user or system config file.<br/>
 ![Main menu](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_01_main_menu.png)
 
-One way to navigate the menu is by using your arrow keys, or the mouse:
+One way to navigate the menu is by using your arrow keys, or the mouse:<br/>
 ![Main menu navigation](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_02_%28arrow_nav_to_system%29.png)
 
-But why bother using the mouse when you can use the keyboard? (Don't answer that) As you type your selection, dmenu dynamically updates its presentation to the matching subset of menu entries. In the following screenshot, the user has typed 's' from the main menu and now has presented only those menu items with that letter.
+But why bother using the mouse when you can use the keyboard? (Don't answer that) As you type your selection, dmenu dynamically updates its presentation to the matching subset of menu entries. In the following screenshot, the user has typed 's' from the main menu and now has presented only those menu items with that letter.<br/>
 ![Main menu keyboard entry 's'](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_11_main_menu_%28typing_s%29.png)
 
-With a second keystroke, 'y', the user has reduced the menu to one item, and can press return to select that item.
+With a second keystroke, 'y', the user has reduced the menu to one item, and can press return to select that item.<br/>
 ![Main menu keyboard entry 'sy'](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_12_main_menu_%28typing_sy%29.png)
 
-After three keystrokes, 'sy\<enter\>', the user has navigated to the 'System' category sub-menu.
+After three keystrokes, 'sy\<enter\>', the user has navigated to the 'System' category sub-menu. The user could have saved a keystroke by typing just 'y\<enter\>' since that character was unique to the 'System' line among all displayed menu entries. <br/>
 ![System menu](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_13_system_menu.png)
+
+Finally, here is what morc_menu looks like in its most simple, uncustomized form, using the most primitve version of dmenu. The menu appears at a fixed position along the entire width of the top of the screen.<br/>
+![Main menu with most basic setup](https://github.com/Boruch-Baum/morc_menu/blob/screenshots/morc_menu_21_main_menu_plain.png)
+
 ## Requirements
 
 For the presentation front-end:
