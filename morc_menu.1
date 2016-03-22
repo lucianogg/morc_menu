@@ -20,7 +20,7 @@ morc_menu \- categorized desktop application menu, independent of any window man
 .PP
 .TP 10
 .B morc_menu
-.RI " [ " conf= " [ " path/to/file" " | " none " ] ]"
+.RI " [ " conf= " [ " path/to/file" " | " none " ] ] [ " no-sys " ]"
 .br
 .RI " " txt " | " xml " [ " in_file " ]"
 .br
@@ -51,6 +51,13 @@ Over-ride the default order of reading configuration files. This
 option must be listed first. It may point to the path of a specific
 configuration file which will be the \fBonly\fP one read, or it may be
 set to '\fBnone\fP' to ignore all configuration files.
+
+.RE
+.TP 7
+no-sys
+Ignore the system-wide pre-built morc_menu txt definition file. See
+below, section 'System-wide definition file'. This option must precede
+any of the following options
 
 .RE
 .TP 7
@@ -295,6 +302,9 @@ The default output for static menus created from data in folder
 ${HOME}/.local/share/applications.
 
 .RS 3
+.SS System-wide definition file
+A system administrator may elect to create and maintain a base-line system-wide menu definition file that all user may reference. \fBmorc_menu\fP expects such a file to exist at /etc/morc_menu.txt, and if it exists, \fBmorc_menu\fP will, by default, use that file instead of building a menu. This behavior may be altered at the command line with option 'no-sys', or in the conf file by setting variable 'ignore_system_txt' to 'TRUE'.
+
 .SS Desktop files
 \fBmorc_menu\fP generates menus based upon the presence of
 .desktop files in the system-wide definition folder

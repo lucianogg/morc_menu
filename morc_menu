@@ -88,7 +88,7 @@
 # TODO: do I want to set dynamic positioning for the display
 #       of error messages (ie. error_cmd) ?
 
-readonly SCRIPT_VERSION="Version 1.0, 2016-03-13"
+readonly SCRIPT_VERSION="Version 1.0, 2016-03-18"
 # Exit codes
 readonly \
   EC_NO_ERROR=0 \
@@ -120,24 +120,29 @@ Usage: morc_menu [ [txt|xml] [in_file] ]\n\
   applications.\n\
 \n\
   Options:\n\
-    txt    Display a static menu from a txt file.\n\
-    xml    Display a static menu from an xml file.\n\
-    build  Build a static menu definition file, in text format.\n\
+    txt        Display a static menu from a txt file.\n\
+    xml        Display a static menu from an xml file.\n\
+    build      Build a static menu definition file, in text format.\n\
     build usr  Only use data from /usr/share/applications/\n\
     build loc  Only use data from ~/.local/share/applications/\n\
     build xml  Only use data from an xml file\n\
-    show   Print to STDOUT the selected sub-option\n\
+    show       Print to STDOUT the selected sub-option\n\
       categories  A complete list, from /usr/share/applications/\n\
       desired     Just those categories to be displayed\n\
       files       A list of existing .desktop files\n\
 \n\
-  Config file option: conf=[\"path/to/file\"|none]\n\
-    Over-ride the default conf file settings. This option must\n\
-    be listed first.\n" \
+    no-sys     Ignore the system-wide pre-built morc_menu txt\n\
+               definition file. This option must precede the\n\
+               above options\n\
+\n\
+    conf=[\"path/to/file\"|none]\n\
+               Over-ride the default conf file settings. This\n\
+               option must be listed first.\n" \
   ABOUT_MESSAGE="\
 morc_menu\n\
   A highly customizable script to display your programs,\n\
   organized by categories. For details see 'man morc_menu'\n"
+
 
 # Field delimiter for our menu definition file. The choice of
 # delimiter turned out to be trickier than expected. OTOH, we need
@@ -164,6 +169,7 @@ readonly menu_file="morc_menu"
 || readonly default_dir="${HOME}/.config/morc_menu/"
 readonly default_path="${default_dir}${menu_file}"
 readonly \
+  system_txt_path="/etc/morc_menu.txt" \
   usr_shar_app_path="/usr/share/applications/" \
   loc_shar_app_path="${HOME}/.local/share/applications/" \
   conf_path=( "/usr/share/morc_menu/" "/usr/local/share/morc_menu/" "${HOME}/.local/share/morc_menu/" "${default_dir}" )
@@ -195,15 +201,15 @@ readonly \
 # Settings subject to modification at the command line
 declare \
   conf_name="morc_menu_v1.conf" \
-  only_conf_file=""
+  only_conf_file="" \
+  ignore_system_txt="FALSE"
 
-# dmenu-manjaro: Settings subject to modification by conf files
-# menu_cmd="dmenu -i -l MENU_LINES -x X_POSITION -y Y_POSITION -w MENU_WIDTH"
-#error_cmd="dmenu -i -l 40 -x 500 -y 150 -w MENU_WIDTH -nb red -nf black -f
-# dmenu: Settings subject to modification by conf files
+# Settings of dmenu, subject to modification by conf files
+# refer to conf file for examples
 menu_cmd="dmenu -i -l MENU_LINES "
 error_cmd="dmenu -i -l 40 -nb red -nf black -fn DejaVu"
 
+# Settings of morc_menu, subject to modification by conf files
 menu_prefix=" [menu]: "
 menu_suffix=" >"
 align_suffix="TRUE"
@@ -299,6 +305,7 @@ function parse_external_conf_file () {
     unwanted_specifics=*)   ;&
     max_num_backups=*)      ;&
     exclude_about=*)        ;&
+    ignore_system_txt=*)    ;&
     additional_entries=*)   ;&
     exclude_from_static=*)  ;&
     exclude_from_dynamic=*) ;&
@@ -348,7 +355,8 @@ function parse_one_conf_file() {
     add_to_dynamic=*)       ;&
     apply_exclusions=*)     ;&
     max_num_backups=*)      ;&
-    exclude_about=*)
+    exclude_about=*)        ;&
+    ignore_system_txt=*)
       eval "${REPLY%%=*}"="${REPLY#*=}"
       ;;
     x_position=*)           ;&
@@ -616,6 +624,22 @@ function shar_app() {
     done
   }
 
+function build_usr_shar_app() {
+  if [[ "${ignore_system_txt}" == "TRUE" ]] ; then
+    shar_app "${usr_shar_app_path}"
+    return
+    fi
+  in_file="${system_txt_path}"
+  load_txt_file "${apply_exclusions}"
+  }
+
+function build_loc_shar_app() {
+  # Yes, at this point, this function is nothing more than a useless
+  # and wasteful redirect, but its here for readability to keep
+  # parallel sounding function names for similar purposes.
+  shar_app "${loc_shar_app_path}" "local"
+  }
+
 function add_custom_entries() {
   # Had we wanted to be kind and charitable to users who erred in
   # formatting the array 'additional_entries', we would perform sanity
@@ -628,8 +652,8 @@ function build_all() {
   [[ "${exclude_from_static}" == "TRUE" ]] \
   && apply_exclusions="TRUE" \
   || apply_exclusions="FALSE"
-  shar_app "${usr_shar_app_path}"
-  shar_app "${loc_shar_app_path}" "local"
+  build_usr_shar_app
+  build_loc_shar_app
   [[ "${add_to_static}" == "TRUE" ]] \
   && add_custom_entries
   }
@@ -751,10 +775,10 @@ function produce_menu() {
   exec $executable
   }
 
-function load_and_produce_menu_from_txt() {
-  [ ! -r ${in_file} ] \
-  && input_file_error
-  if [[ "${exclude_from_static}" != "TRUE" ]] ; then
+function load_txt_file() {
+  # $1 = variable 'exclude_from_static' or 'exclude_from_dynamic', or
+  #      their aggregator variable 'apply_exclusions'
+  if [[ "$1" != "TRUE" ]] ; then
     exec 3< "${in_file}"
     mapfile -u3 list
     list_len=$(( ${#list[@]} ))
@@ -769,6 +793,12 @@ function load_and_produce_menu_from_txt() {
       done < "${in_file}" 
     list_len=${ii}
     fi 
+  }
+
+function load_and_produce_menu_from_txt() {
+  [ ! -r ${in_file} ] \
+  && input_file_error
+  load_txt_file "${exclude_from_static}"
   if [[ "${add_to_static}" != "TRUE" ]] ; then
     produce_menu
   else
@@ -816,24 +846,29 @@ function show_desired() {
 # ┃ MAIN: The script begins running here                      ┃
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 shopt -s nocasematch # do not be case sensitive
+if [[ "$1" =~ ^(-)?(-)?(usage|help)$ ]] ; then
+  usage_message
+  exit $EC_NO_ERROR
+elif [[ "$1" =~ ^(-)?(-)?(version)$ ]] ; then
+  version_message
+  exit $EC_NO_ERROR
+  fi
 if [[ "$1" =~ ^conf=* ]] ; then
   only_conf_file="${1#*=}"
   shift
   fi
-if [[ $1 =~ ^(-)?(-)?(usage|help)$ ]] ; then
-  usage_message
-  exit $EC_NO_ERROR
-elif [[ $1 =~ ^(-)?(-)?(version)$ ]] ; then
-  version_message
-  exit $EC_NO_ERROR
-  fi
 parse_conf_files
+if [[ "$1" == "no-sys" ]] \
+   || [ ! -r "${system_txt_path}" ] ; then
+  ignore_system_txt="TRUE"
+  shift
+  fi
 if [[ $# == 0 ]] ; then
   [[ "${exclude_from_dynamic}" == "TRUE" ]] \
   && apply_exclusions="TRUE" \
   || apply_exclusions="FALSE"
-  shar_app "${usr_shar_app_path}"
-  shar_app "${loc_shar_app_path}" "local"
+  build_usr_shar_app
+  build_loc_shar_app
   [[ "${add_to_dynamic}" == "TRUE" ]] \
   && add_custom_entries
   pad_right
@@ -875,14 +910,18 @@ build)
       [ -z "$3" ] \
       && out_file=${default_path}"_usr.txt" \
       || out_file="$3"
-      shar_app "${usr_shar_app_path}"
+      ignore_system_txt="TRUE"
+      [[ "${exclude_from_static}" == "TRUE" ]] \
+      && apply_exclusions="TRUE" \
+      || apply_exclusions="FALSE"
+      build_usr_shar_app
       ;;
     loc)
       [ -z "$3" ] \
       && out_file=${default_path}"_usr.txt" \
       || out_file="$3"
       out_file=${default_path}"_loc.txt"
-      shar_app "${loc_shar_app_path}" "local"
+      build_loc_shar_app
       ;;
     xml)
       [ -z "$3" ] \
