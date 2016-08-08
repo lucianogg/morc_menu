@@ -335,7 +335,18 @@ function parse_one_conf_file() {
     case ${REPLY} in
     external_skin_definition_file=*)
       eval "${REPLY%%=*}"="${REPLY#*=}"
-      parse_external_conf_file "${external_skin_definition_file}"
+      [ -r "${external_skin_definition_file}" ] \
+      && parse_external_conf_file "${external_skin_definition_file}"
+#     || {
+#       error_cmd="${error_cmd/MENU_WIDTH/${err_menu_width}}"
+#       printf "%s\n" \
+#         "ERROR: morc_menu"    \
+#         "could not read file"  \
+#         "${external_skin_definition_file}" \
+#         "referred to by file" $1 \
+#         "press <return> to continue" \
+#       | ${error_cmd}
+#       }
       ;;
     use_mouse_position=*)   ;&
     menu_prefix=*)          ;&
@@ -498,7 +509,7 @@ function build_xml() {
       if [[ "$REPLY" == *CDATA* ]] ; then
         executable="${REPLY/*CDATA\[/}"
         executable="${executable/\]*/}"
-      else 
+      else
         executable=""
         fi
       list[ $((ii++)) ]="${menu_text}${delim}${item_text}${delim}${executable}"
@@ -506,7 +517,7 @@ function build_xml() {
       menu_text="${REPLY/*label=\"/}"
       menu_text="${menu_text/\">/}"
       fi
-    done < "${in_file}" 
+    done < "${in_file}"
   list_len=$((--ii))
   }
 
@@ -593,7 +604,7 @@ function shar_app() {
     # 4] if the sysadmin has added "Favorites" to the list of
     #    categories, treat this as a "Favorite"
     for category in ${categories//;/ } ; do
-      if [[ ${desired_categories} =~ ${category} ]] ; then 
+      if [[ ${desired_categories} =~ ${category} ]] ; then
         [[ "${apply_exclusions}" = "TRUE" ]] \
         && is_this_entry_unwanted "${category}" "${name}" "${exec_}" \
         && continue
@@ -677,7 +688,7 @@ function display_a_menu() {
   response=$( echo -e "$3" | ${display_cmd} )
   }
 
-function exec_about() { 
+function exec_about() {
   display_a_menu "11" "63" "${ABOUT_MESSAGE}${VERSION_MESSAGE}"
   exit EC_NO_ERROR
   }
@@ -762,7 +773,22 @@ function produce_menu() {
     done
   # determine the executable to launch
   [[ "${response}" == "About" ]] \
-  && exec_about
+  && exec_about # exits morc_memu there
+  # we need to escape all occurrences of any regex character that
+  # might be in the menu text. Unfortunately, bash doesn't have
+  # group referencing so each character needs its own statement
+  # (still much more efficient than calling an external program).
+  response=${response//\\/\\\\}
+  response=${response//\(/\\\(}
+  response=${response//\)/\\\)}
+  response=${response//\[/\\\[}
+  response=${response//\]/\\\]}
+  response=${response//\./\\\.}
+  response=${response//\*/\\\*}
+  response=${response//\+/\\\+}
+  response=${response//\?/\\\?}
+  response=${response//\^/\\\^}
+  response=${response//\$/\\\$}
   for (( ii=0; $ii-$list_len; ii++ )) ; do
     if [[ ${list[$ii]} =~ ^.*${delim}${response}${delim}.*$ ]] ; then
       executable="${list[$ii]##*${delim}}"
@@ -790,9 +816,9 @@ function load_txt_file() {
       a_exec="${REPLY##*${delim}}"
       is_this_entry_unwanted "${a_cat}" "${a_name}" "${a_exec}" \
       || list[ $((ii++)) ]="${REPLY}"
-      done < "${in_file}" 
+      done < "${in_file}"
     list_len=${ii}
-    fi 
+    fi
   }
 
 function load_and_produce_menu_from_txt() {
@@ -858,10 +884,11 @@ if [[ "$1" =~ ^conf=* ]] ; then
   shift
   fi
 parse_conf_files
-if [[ "$1" == "no-sys" ]] \
-   || [ ! -r "${system_txt_path}" ] ; then
+if [[ "$1" == "no-sys" ]] ; then
   ignore_system_txt="TRUE"
   shift
+elif [ ! -r "${system_txt_path}" ] ; then
+  ignore_system_txt="TRUE"
   fi
 if [[ $# == 0 ]] ; then
   [[ "${exclude_from_dynamic}" == "TRUE" ]] \
