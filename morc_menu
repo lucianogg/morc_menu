@@ -783,6 +783,8 @@ function produce_menu() {
   response=${response//\)/\\\)}
   response=${response//\[/\\\[}
   response=${response//\]/\\\]}
+  response=${response//\{/\\\{}
+  response=${response//\}/\\\}}
   response=${response//\./\\\.}
   response=${response//\*/\\\*}
   response=${response//\+/\\\+}
