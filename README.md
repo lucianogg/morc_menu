@@ -1,7 +1,11 @@
 # morc_menu
-Categorized desktop application menu
+[Un]categorized desktop application menu
 * independent of any window manager
 * highly and easily customizable
+
+This is a fork from Boruch-Baum's project. I've just thought the categories are sometimes not helpful when you use some types of keyboard.
+
+From here downwards, everything is untouched from Boruch-Baum's project. Have fun using it!
 
 morc_menu is a bash script that simulates the functionality of an [Openbox](https://en.wikipedia.org/wiki/Openbox)
 / [Fluxbox](https://en.wikipedia.org/wiki/Fluxbox) style menu without requiring those window
